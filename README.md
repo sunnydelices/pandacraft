@@ -1,20 +1,41 @@
-# pandacraft
+# USERS DASHBOARD
+This repository holds the code of a technical test for Pandacraft
+The goal of this test is to create a basic dashboard which display a data table of users and allow you to access to a user sheet which display advanced infos.
 
-## Build Setup
+All data are accessible by using JSON Placeholder APIs
 
-```bash
-# install dependencies
-$ npm install
+## Ressources
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+NUXT (https://nuxtjs.org/)
 
-# build for production and launch server
-$ npm run build
-$ npm run start
+JSON Placeholder (https://jsonplaceholder.typicode.com/)
 
-# generate static project
-$ npm run generate
+Font Awesome (https://fontawesome.com/)
+
+Nunito Font (https://fonts.google.com/specimen/Nunito)
+
+
+## Setup
+
+To get it working, follow these steps:
+
+
+**Download npm dependencies**
+
+Make sure you have npm installed (https://nodejs.org) and then run:
+
+```
+npm install
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+**Serve with hot reload at localhost:3000**
+
+```
+npm run dev
+```
+
+Now open the `http://localhost:3000` 
+
+## Have fun !
+
+If you have suggestions or questions, feel free to message me.
