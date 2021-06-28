@@ -20,6 +20,8 @@ Nunito Font (https://fonts.google.com/specimen/Nunito)
 To get it working, follow these steps:
 
 
+Copy .env.example into .env
+
 **Download npm dependencies**
 
 Make sure you have npm installed (https://nodejs.org) and then run:
