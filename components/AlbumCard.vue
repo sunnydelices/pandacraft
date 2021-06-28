@@ -28,8 +28,10 @@ import { AlbumType } from '~/types/AlbumType'
 @Component({
 })
 export default class AlbumCard extends Vue {
+  // prop
   @Prop() album!: AlbumType
 
+  // computed
   get photosNumber () {
     return (this.album.photos?.length ?? 0)
   }

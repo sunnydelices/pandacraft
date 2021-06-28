@@ -35,6 +35,7 @@ import UserCard from '~/components/UserCard.vue'
   components: { UserCard }
 })
 export default class Index extends Vue {
+  // data
   userList: UserType[] = []
   loadingUsers = true
   datatableHeaders = [
@@ -51,6 +52,7 @@ export default class Index extends Vue {
     }
   ]
 
+  // lifecycle hooks
   async mounted () {
     this.userList = (await this.$axios.get('/users')).data
     this.loadingUsers = false

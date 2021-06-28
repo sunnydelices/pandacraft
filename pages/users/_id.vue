@@ -86,8 +86,12 @@ import AlbumCard from '~/components/AlbumCard.vue'
   components: { UserCard, PostCard, TodoListItem, AlbumCard }
 })
 export default class User extends Vue {
+  // data
   userId: string = this.$route.params.id
   user: UserType | null = null
+  postList: PostType[] = []
+  todosList: TodoType[] = []
+  albumList: AlbumType[] = []
   isLoadingPosts = true
   isLoadingTodos = true
   isLoadingAlbums = true
@@ -104,10 +108,7 @@ export default class User extends Vue {
     elevation: 1
   }
 
-  postList: PostType[] = []
-  todosList: TodoType[] = []
-  albumList: AlbumType[] = []
-
+  // lifecycle hooks
   async mounted () {
     const userResponse = await this.$axios.get(`/users/${this.userId}`)
     this.user = userResponse.data

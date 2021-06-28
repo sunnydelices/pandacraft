@@ -58,9 +58,13 @@ import { PostType } from '~/types/PostType'
 @Component({
 })
 export default class PostCard extends Vue {
+  // prop
   @Prop() post!: PostType
+
+  // data
   commentsShow = false
 
+  // computed
   get commentsNumber () {
     return (this.post.comments?.length ?? 0)
   }

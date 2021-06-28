@@ -17,6 +17,7 @@ import { TodoType } from '~/types/TodoType'
 @Component({
 })
 export default class TodoListItem extends Vue {
+  // prop
   @Prop() todo!: TodoType
 }
 </script>

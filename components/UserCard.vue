@@ -58,6 +58,7 @@ import { UserType } from '~/types/UserType'
 @Component({
 })
 export default class UserCard extends Vue {
+  // prop
   @Prop() user!: UserType
 }
 </script>
