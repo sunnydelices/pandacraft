@@ -11,7 +11,7 @@
         sm="4"
       >
         <h2>Infos</h2>
-        <user-card :user="user" v-if="user" />
+        <user-card v-if="!$fetchState.pending" :user="user" />
         <v-skeleton-loader
           v-else
           v-bind="loadersAttrs"
@@ -19,7 +19,7 @@
         />
 
         <h2>ToDos</h2>
-        <v-card v-if="!isLoadingTodos">
+        <v-card v-if="!$fetchState.pending" >
           <todo-list-item v-for="todo in todosList" :key="todo.id" :todo="todo" />
         </v-card>
         <v-skeleton-loader
@@ -33,7 +33,7 @@
         sm="4"
       >
         <h2>Posts</h2>
-        <div v-if="!isLoadingPosts">
+        <div v-if="!$fetchState.pending">
           <post-card v-for="post in postList" :key="post.id" :post="post" />
         </div>
         <v-skeleton-loader
@@ -47,7 +47,7 @@
         sm="4"
       >
         <h2>Albums</h2>
-        <v-row v-if="!isLoadingAlbums">
+        <v-row v-if="!$fetchState.pending" >
           <v-col
             v-for="n in 2"
             :key="n"
@@ -92,9 +92,6 @@ export default class User extends Vue {
   postList: PostType[] = []
   todosList: TodoType[] = []
   albumList: AlbumType[] = []
-  isLoadingPosts = true
-  isLoadingTodos = true
-  isLoadingAlbums = true
   breadcrumbsItems = [
     {
       text: 'Users',
@@ -108,39 +105,31 @@ export default class User extends Vue {
     elevation: 1
   }
 
+  // Nuxt hooks
+  async fetch () {
+    this.user = (await this.$axios.get(`/users/${this.userId}`)).data
+    this.todosList = (await this.$axios.get(`/todos?userId=${this.userId}`)).data
+    this.postList = (await this.$axios.get(`/posts?userId=${this.userId}`)).data
+    await Promise.all(
+      this.postList.map(async (post) => {
+        post.comments = (await this.$axios.get(`/posts/${post.id}/comments`)).data
+      })
+    )
+    this.albumList = (await this.$axios.get(`/albums?userId=${this.userId}`)).data
+    await Promise.all(
+      this.albumList.map(async (album) => {
+        album.photos = (await this.$axios.get(`/albums/${album.id}/photos`)).data
+      })
+    )
+  }
+
   // lifecycle hooks
   async mounted () {
-    const userResponse = await this.$axios.get(`/users/${this.userId}`)
-    this.user = userResponse.data
     this.breadcrumbsItems.push({
       text: this.user?.name ?? '',
       disabled: true,
       href: '#'
     })
-
-    const todosResponse = await this.$axios.get(`/todos?userId=${this.userId}`)
-    this.todosList = todosResponse.data
-    this.isLoadingTodos = false
-
-    const postsResponse = await this.$axios.get(`/posts?userId=${this.userId}`)
-    this.postList = postsResponse.data
-    await Promise.all(
-      this.postList.map(async (post) => {
-        const commentResponse = await this.$axios.get(`/posts/${post.id}/comments`)
-        post.comments = commentResponse.data
-      })
-    )
-    this.isLoadingPosts = false
-
-    const albumsResponse = await this.$axios.get(`/albums?userId=${this.userId}`)
-    this.albumList = albumsResponse.data
-    await Promise.all(
-      this.albumList.map(async (album) => {
-        const photosResponse = await this.$axios.get(`/albums/${album.id}/photos`)
-        album.photos = photosResponse.data
-      })
-    )
-    this.isLoadingAlbums = false
   }
 }
 </script>

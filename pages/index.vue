@@ -9,7 +9,7 @@
     <v-data-table
       :headers="datatableHeaders"
       :items="userList"
-      :loading="loadingUsers"
+      :loading="$fetchState.pending"
       item-key="id"
       class="elevation-1"
     >
@@ -37,7 +37,6 @@ import UserCard from '~/components/UserCard.vue'
 export default class Index extends Vue {
   // data
   userList: UserType[] = []
-  loadingUsers = true
   datatableHeaders = [
     { text: 'Id', value: 'id' },
     { text: 'Username', value: 'username' },
@@ -52,10 +51,9 @@ export default class Index extends Vue {
     }
   ]
 
-  // lifecycle hooks
-  async mounted () {
+  // Nuxt hooks
+  async fetch () {
     this.userList = (await this.$axios.get('/users')).data
-    this.loadingUsers = false
   }
 }
 </script>
